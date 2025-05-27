@@ -4,34 +4,34 @@
         ; nasm -f win64 lecture_donnees_au_clavier.asm -o <prg>.obj
         ; golink <prg>.obj /entry main /console kernel32.dll
 
-bits 64  
+bits 64  ; Indique que le code est pour une architecture 64 bits
 
-extern GetStdHandle
-extern WriteConsoleA
-extern ReadConsoleA
-extern ExitProcess
+extern GetStdHandle  ; Fonction pour obtenir le handle de la console
+extern WriteConsoleA ; Fonction pour écrire dans la console
+extern ReadConsoleA  ; Fonction pour lire depuis la console
+extern ExitProcess   ; Fonction pour terminer le processus
 
-STD_INPUT_HANDLE : equ -10
-STD_OUTPUT_HANDLE : equ -11
-MESSAGE_MAX_LENGTH : equ 255
-SHADOWSPACE_SIZE : equ 32
-NULL : equ 0
+STD_INPUT_HANDLE : equ -10    ; Handle pour l'entrée standard
+STD_OUTPUT_HANDLE : equ -11   ; Handle pour la sortie standard
+MESSAGE_MAX_LENGTH : equ 255  ; Longueur maximale du message
+SHADOWSPACE_SIZE : equ 32     ; Espace pour la pile
+NULL : equ 0                  ; Valeur nulle pour les pointeurs
 
-section .data
-    message : db "Comment tu t'appelle ? "
+section .data      ; Section pour les données initialisées
+    message : db "Comment tu t'appelle ? " 
     MESSAGE_LENGTH : equ $ - message
 
     pre : db "Bonjour "
     MESSAGE_LENGTH_PRE : equ $ - pre
 
-section .bss
+section .bss      ; Section pour les données non initialisées
     written : resq 1
     written_pre : resq 1
     username : resq MESSAGE_MAX_LENGTH
     read : resq 4 
 
-section .text
-    global main
+section .text  ; Section pour le code
+    global main ; Point d'entrée du programme
     main : 
         ; Demande de saisie
         ;--------------------------------------
